@@ -40,8 +40,7 @@
 (defun htmx-page (&rest content)
   `(:html.no-js
     (:head
-     (:script :src "https://unpkg.com/htmx.org@1.9.5")
-     (:script :src "https://unpkg.com/htmx.org/dist/ext/ws.js")
+     (:script :src "/static/htmx.js")
      (:link :rel "stylesheet" :href "https://unpkg.com/sakura.css/css/sakura-dark.css"))
     (:body#page ,@content)))
 
@@ -69,7 +68,7 @@
   '(:<>
     (:iframe#dummy :name "dummy" :style "display: none;")
     (:form.login
-     :method "POST" :action "/login" :target "dummy"
+     :hx-post "/login" :target "dummy"
      (:h1 "Login")
      (:br) (:input :type "text" :name "username")
      (:br) (:input :type "password" :name "password")
@@ -80,7 +79,7 @@
   '(:<>
     (:iframe#dummy :name "dummy" :style "display: none;")
     (:form.signup
-     :method "POST" :action "/signup" :target "dummy"
+     :hx-post "/signup" :target "dummy"
      (:h1 "Sign up")
      (:br) (:input :type "text" :name "username" :placeholder "username")
      (:br) (:input :type "text" :name "email" :placeholder "email")
@@ -92,7 +91,8 @@
   '(:<>
     (:iframe#dummy :name "dummy" :style "display: none;")
     (:form.logout
-     :method "POST" :action "/logout" :target "dummy"
+     ;; :method "POST" :action "/logout"
+     :hx-post "/logout" :target "dummy"
      (:h1 "Are you sure?")
      (:br) (:input :type "submit" "yes"))))
 

@@ -96,7 +96,7 @@
                     (dao (mito:find-dao 'db:user :name name)))
           (when (check-password pass (db:user-password dao))
             (setf (gethash :user-id *session*) (mito:object-id dao))
-            (send-redirect *response* "/")))))
+            (send-redirect *response* "http://localhost:5000/")))))
 
 ;; ----------------------------------------------------------------------------
 (setf (route *app* "/signup" :method :GET)
@@ -118,7 +118,7 @@
 (setf (route *app* "/logout" :method :POST)
       (lambda* (_)
         (setf (gethash :user-id *session*) nil)
-        (send-redirect *response* "/")))
+        (send-redirect *response* "http://localhost:5000/")))
 
 ;; ----------------------------------------------------------------------------
 (setf (route *app* "/logout" :method :GET)

@@ -13,8 +13,9 @@
   (clack:clackup
    (lack:builder
     (:session :store (make-dbi-store :connector (lambda () mito:*connection*)))
+    (:static :path "/static/" :root #P"./static/")
     app)
-   :server :woo))
+   :server :hunchentoot))
 
 ;; ----------------------------------------------------------------------------
 (defun start! ()

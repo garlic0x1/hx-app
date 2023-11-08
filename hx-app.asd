@@ -13,6 +13,7 @@
                :woo
                :clack
                :lack-middleware-session
+               :lack-middleware-static
                :lack-session-store-dbi
                :ningle
                :cl-pass
