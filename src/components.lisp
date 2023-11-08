@@ -91,7 +91,6 @@
   '(:<>
     (:iframe#dummy :name "dummy" :style "display: none;")
     (:form.logout
-     ;; :method "POST" :action "/logout"
      :hx-post "/logout" :target "dummy"
      (:h1 "Are you sure?")
      (:br) (:input :type "submit" "yes"))))
@@ -101,7 +100,7 @@
   '(:<>
     (:iframe#dummy :name "dummy" :style "display: none;")
     (:form.signup
-     :method "POST" :action "/post" :target "dummy"
+     :hx-post "/post" :target "dummy"
      (:h1 "Make a post")
      (:br) (:input :type "text" :name "message")
      (:br) (:input :type "submit"))))

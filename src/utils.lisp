@@ -16,13 +16,9 @@
                  ,header)))
 
 ;; ----------------------------------------------------------------------------
-(defmacro send-redirect (resp url)
+(defmacro hx-redirect (resp url)
   `(progn
-     ;; ,(add-header resp (list "HX-Refresh" ""))
      (setf (response-headers ,resp)
            (append (response-headers ,resp)
-                   (list :hx-refresh "true")
-                   (list "HX-Redirect" ,url)))
-     (setf (response-status ,resp) 303)
+                   (list :hx-redirect ,url)))
      nil))
-
