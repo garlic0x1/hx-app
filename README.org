@@ -18,7 +18,8 @@ sudo dpkg -i roswell.deb
 #+end_src
 ** Get code
 #+begin_src shell
-pushd ~/.roswell/lisp/quicklisp/local-projects
+# pushd ~/.roswell/lisp/quicklisp/local-projects
+pushd ~/.roswell/local-projects
 git clone https://github.com/garlic0x1/hiccl
 git clone https://github.com/fukamachi/ningle
 git clone https://github.com/garlic0x1/hx-app
@@ -26,7 +27,8 @@ popd
 #+end_src
 ** Run server
 #+begin_src shell
-pushd ~/.roswell/lisp/quicklisp/local-projects/hx-app
+# pushd ~/.roswell/lisp/quicklisp/local-projects/hx-app
+pushd ~/.roswell/local-projects/hx-app
 ./hx-app.ros
 popd
 #+end_src
