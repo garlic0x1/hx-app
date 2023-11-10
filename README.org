@@ -14,7 +14,8 @@ Debian?:
 #+begin_src shell
 curl -L https://github.com/roswell/roswell/releases/download/v19.08.10.101/roswell_19.08.10.101-1_amd64.deb --output roswell.deb
 
-sudo dpkg -i roswell.deb
+# sudo dpkg -i roswell.deb
+sudo apt install --fix-broken ./roswell.deb
 #+end_src
 ** Get code
 #+begin_src shell
