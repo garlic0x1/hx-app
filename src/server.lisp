@@ -9,19 +9,21 @@
 (defvar *server* nil)
 
 ;; ----------------------------------------------------------------------------
-(defun clackup (app)
+(defun clackup (app &key public? join?)
   (clack:clackup
    (lack:builder
     (:session :store (make-dbi-store :connector (lambda () mito:*connection*)))
     (:static :path "/static/" :root #P"./static/")
     app)
-   :server :hunchentoot))
+   :address (if public? "0.0.0.0" "127.0.0.1")
+   :use-thread (not join?)
+   :server :woo))
 
 ;; ----------------------------------------------------------------------------
-(defun start! ()
+(defun start! (&key public? join?)
   (unless *server*
     (db:connect)
-    (setf *server* (clackup web:*app*))))
+    (setf *server* (clackup web:*app* :public? public? :join? join?))))
 
 ;; ----------------------------------------------------------------------------
 (defun stop! ()
@@ -31,6 +33,6 @@
     (mito:disconnect-toplevel)))
 
 ;; ----------------------------------------------------------------------------
-(defun restart! ()
+(defun restart! (&key public? join?)
   (stop!)
-  (start!))
+  (start! :public? public? :join? join?))

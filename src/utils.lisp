@@ -1,7 +1,7 @@
 (defpackage :hx-app/utils
   (:nicknames :hx/utils)
   (:use :cl :alexandria :lack.response)
-  (:export #:param #:send-redirect))
+  (:export #:param #:hx-redirect #:hx-refresh))
 (in-package :hx-app/utils)
 
 ;; ----------------------------------------------------------------------------
@@ -21,4 +21,12 @@
      (setf (response-headers ,resp)
            (append (response-headers ,resp)
                    (list :hx-redirect ,url)))
+     nil))
+
+;; ----------------------------------------------------------------------------
+(defmacro hx-refresh (resp)
+  `(progn
+     (setf (response-headers ,resp)
+           (append (response-headers ,resp)
+                   (list :hx-refresh "true")))
      nil))

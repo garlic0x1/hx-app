@@ -21,13 +21,13 @@
   (loop :for table :being :the :hash-key :of tables
         :do (if recreate?
                 (mito:recreate-table table)
-                (mito:ensure-table-exists table))))
+                (mito:migrate-table table))))
 
 ;; ----------------------------------------------------------------------------
 (defun connect ()
   (mito:connect-toplevel
    :sqlite3
-   :database-name "/tmp/garlic-vulner.sqlite3"))
+   :database-name "/tmp/hx-testing-app.sqlite3"))
 
 ;;
 ;; Data models
@@ -98,5 +98,6 @@
     :col-type post
     :references post
     :initarg :post
-    :accessor post-like-post)))
+    :accessor post-like-post))
+  (:unique-keys (user post)))
 (add-table 'post-like)

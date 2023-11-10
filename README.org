@@ -1,0 +1,5 @@
+#+title: Readme
+
+* non-quicklisp dependencies
+** garlic0x1/hiccl
+** fukamachi/ningle (ql version currently is buggy)

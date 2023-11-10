@@ -1,5 +1,6 @@
 (asdf:defsystem "hx-app"
   :author "garlic0x1"
+  :license "MIT"
   :depends-on (
                ;; lang
                :cl-annot

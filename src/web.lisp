@@ -18,7 +18,7 @@
       (lambda* (_)
         (when-let* ((uid (gethash :user-id *session*))
                     (dao (mito:find-dao 'db:user :id uid)))
-          (setf (context :auth) dao))))
+          (values t dao))))
 
 ;;
 ;; Endpoints
@@ -41,6 +41,15 @@
            '(:div#view)))))
 
 ;; ----------------------------------------------------------------------------
+(setf (route *app* "/rxss" :method :GET)
+      (lambda (params)
+        (hiccl:render nil
+          `(:<>
+            (:a :href "/rxss?attr=hi&text=world" "/rxss?attr=hi&text=world")
+            (:div :attr-sink ,(param :attr params)
+                  ,(param :text params))))))
+
+;; ----------------------------------------------------------------------------
 (setf (route *app* "/feed" :method :GET)
       (lambda* (_)
         (hiccl:render nil
@@ -59,12 +68,26 @@
           `(:div "You must be logged in to post"))))
 
 ;; ----------------------------------------------------------------------------
+(setf (route *app* "/post/:id/like" :method :POST :auth t)
+      (lambda (params)
+        (ignore-errors
+         (mito:create-dao
+          'db:post-like
+          :post (mito:find-dao 'db:post :id (param :id params))
+          :user (param :auth params)))))
+
+;; ----------------------------------------------------------------------------
+(setf (route *app* "/post/:id" :method :GET)
+      (lambda (params)
+        (hiccl:render nil
+          (mito:find-dao 'db:post :id (param :id params)))))
+
+;; ----------------------------------------------------------------------------
 (setf (route *app* "/post" :method :POST :auth t)
       (lambda (params)
-        (when-let* ((user (context :auth))
+        (when-let* ((user (param :auth params))
                     (msg (param :message params)))
-          (mito:create-dao 'db:post :user user :message msg)
-          nil)))
+          (mito:create-dao 'db:post :user user :message msg))))
 
 ;; ----------------------------------------------------------------------------
 (setf (route *app* "/profile" :method :GET :auth t)
@@ -96,7 +119,7 @@
                     (dao (mito:find-dao 'db:user :name name)))
           (when (check-password pass (db:user-password dao))
             (setf (gethash :user-id *session*) (mito:object-id dao))
-            (send-redirect *response* "http://localhost:5000/")))))
+            (hx-redirect *response* "/")))))
 
 ;; ----------------------------------------------------------------------------
 (setf (route *app* "/signup" :method :GET)
@@ -112,13 +135,13 @@
                (email (param :email params))
                (dao (mito:create-dao 'db:user :name name :password (hash pass) :email email)))
           (setf (gethash :user-id *session*) (mito:object-id dao))
-          (send-redirect *response* "/"))))
+          (hx-redirect *response* "/"))))
 
 ;; ----------------------------------------------------------------------------
 (setf (route *app* "/logout" :method :POST)
       (lambda* (_)
         (setf (gethash :user-id *session*) nil)
-        (send-redirect *response* "http://localhost:5000/")))
+        (hx-redirect *response* "http://localhost:5000/")))
 
 ;; ----------------------------------------------------------------------------
 (setf (route *app* "/logout" :method :GET)
