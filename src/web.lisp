@@ -152,7 +152,7 @@
 (setf (route *app* "/logout" :method :POST)
       (lambda* (_)
         (setf (gethash :user-id *session*) nil)
-        (hx-redirect *response* "http://localhost:5000/")))
+        (hx-redirect *response* "/")))
 
 ;; ----------------------------------------------------------------------------
 (setf (route *app* "/logout" :method :GET)
