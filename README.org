@@ -1,5 +1,7 @@
 #+title: Readme
 
+Testing HTML generator at [[https://github.com/garlic0x1/hiccl][garlic0x1/hiccl]]
+
 * Setup
 ** Install Roswell
 Arch:
