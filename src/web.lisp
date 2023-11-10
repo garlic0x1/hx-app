@@ -70,11 +70,19 @@
 ;; ----------------------------------------------------------------------------
 (setf (route *app* "/post/:id/like" :method :POST :auth t)
       (lambda (params)
-        (ignore-errors
-         (mito:create-dao
-          'db:post-like
-          :post (mito:find-dao 'db:post :id (param :id params))
-          :user (param :auth params)))))
+        (unless (ignore-errors
+                 (mito:create-dao
+                  'db:post-like
+                  :post (mito:find-dao 'db:post :id (param :id params))
+                  :user (param :auth params)))
+          (hiccl:render nil
+            `(:div "failure :(")))))
+
+;; ----------------------------------------------------------------------------
+(setf (route *app* "/post/:id/like" :method :POST)
+      (lambda* (_)
+        (hiccl:render nil
+          `(:div "must be logged in"))))
 
 ;; ----------------------------------------------------------------------------
 (setf (route *app* "/post/:id" :method :GET)
@@ -119,7 +127,10 @@
                     (dao (mito:find-dao 'db:user :name name)))
           (when (check-password pass (db:user-password dao))
             (setf (gethash :user-id *session*) (mito:object-id dao))
-            (hx-redirect *response* "/")))))
+            (hx-redirect *response* "/")))
+        ;; hacky
+        (hiccl:render nil
+          `(:div "failure :("))))
 
 ;; ----------------------------------------------------------------------------
 (setf (route *app* "/signup" :method :GET)

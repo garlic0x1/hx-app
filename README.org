@@ -2,11 +2,15 @@
 
 * Setup
 ** Install Roswell
+Arch:
+#+begin_src shell
+sudo pacman -Syu roswell
+#+end_src
 Alpine:
 #+begin_src shell
 apk add --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing roswell
 #+end_src
-Debian:
+Debian?:
 #+begin_src shell
 curl -L https://github.com/roswell/roswell/releases/download/v19.08.10.101/roswell_19.08.10.101-1_amd64.deb --output roswell.deb
 

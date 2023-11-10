@@ -23,7 +23,9 @@
       (:div.user "User: " ,(db:user-name (db:post-user obj)))
       (:div.message "Message:" ,(db:post-message obj))
       (:div.likes "Likes:" ,(mito:count-dao 'db:post-like :post obj))
-      (:button :hx-post ,(format nil "/post/~a/like" (mito:object-id obj)) "Like"))))
+      (:button :hx-target "#flash"
+               :hx-post ,(format nil "/post/~a/like" (mito:object-id obj))
+               "Like"))))
 
 ;; ----------------------------------------------------------------------------
 (defmethod hiccl::render-form (out (obj db:user))
@@ -44,7 +46,8 @@
     (:head
      (:script :src "https://unpkg.com/htmx.org@1.9.8")
      (:link :rel "stylesheet" :href "https://unpkg.com/sakura.css/css/sakura-dark.css"))
-    (:body#page ,@content)))
+    (:body#page ,@content)
+    (:footer#flash)))
 
 ;;
 ;; Static components
@@ -53,6 +56,7 @@
 ;; ----------------------------------------------------------------------------
 (defparameter top-bar-unauth
   '(:nav.top-bar
+    (:a :href "https://github.com/garlic0x1/hx-app" "Source Code")
     (:a :hx-target "#view" :hx-get "/rxss" "XSS test page")
     (:a :hx-target "#view" :hx-get "/login" "Log in")
     (:a :hx-target "#view" :hx-get "/signup" "Sign up")
@@ -61,6 +65,7 @@
 ;; ----------------------------------------------------------------------------
 (defparameter top-bar-auth
   '(:nav.top-bar
+    (:a :href "https://github.com/garlic0x1/hx-app" "Source Code")
     (:a :hx-target "#view" :hx-get "/rxss" "XSS test page")
     (:a :hx-target "#view" :hx-get "/profile" "Profile")
     (:a :hx-target "#view" :hx-get "/logout" "Log out")
@@ -70,6 +75,7 @@
 ;; ----------------------------------------------------------------------------
 (defparameter login-form
   '(:form.login
+    :hx-target "#flash"
     :hx-post "/login"
     (:h1 "Login")
     (:br) (:input :type "text" :name "username")
