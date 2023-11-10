@@ -1,5 +1,28 @@
 #+title: Readme
 
-* non-quicklisp dependencies
-** garlic0x1/hiccl
-** fukamachi/ningle (ql version currently is buggy)
+* Setup
+** Install Roswell
+Alpine:
+#+begin_src shell
+apk add --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing roswell
+#+end_src
+Debian:
+#+begin_src shell
+curl -L https://github.com/roswell/roswell/releases/download/v19.08.10.101/roswell_19.08.10.101-1_amd64.deb --output roswell.deb
+
+sudo dpkg -i roswell.deb
+#+end_src
+** Get code
+#+begin_src shell
+pushd ~/.roswell/lisp/quicklisp/local-projects
+git clone https://github.com/garlic0x1/hiccl
+git clone https://github.com/fukamachi/ningle
+git clone https://github.com/garlic0x1/hx-app
+popd
+#+end_src
+** Run server
+#+begin_src shell
+pushd ~/.roswell/lisp/quicklisp/local-projects/hx-app
+./hx-app.ros
+popd
+#+end_src
